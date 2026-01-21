@@ -580,26 +580,35 @@
     }
 
     function search() {
-        let rawQuery = input.value.toLowerCase().trim();
-        
-        if (!rawQuery) {
+        let raw = input.value.trim();
+        if (!raw) {
             render(database);
             return;
         }
-
-        // 1. Foydalanuvchi yozganini Kirillga o'giramiz
-        const queryCyrillic = toCyrillic(rawQuery);
-        // 2. Nuqtasiz holatini tayyorlaymiz
-        const queryClean = queryCyrillic.replace(/\./g, '');
-
+    
+        // 1. Har qanday holatni pastga tushiramiz
+        const queryLower = raw.toLowerCase();
+    
+        // 2. Nuqtalar, bo‘shliqlar va boshqa keraksiz belgilarni olib tashlaymiz
+        const queryClean = queryLower.replace(/[\s.\-,;:!?]/g, '');
+    
+        // 3. Lotin → Kirill o‘girish (agar lotin bo‘lsa)
+        const queryCyr = toCyrillic(queryClean);
+    
+        // 4. Ikki variantni tayyorlaymiz: kirill va lotin tozalangan shakllar
+        const variants = [
+            queryClean,     // lotin yoki aralash toza shakl
+            queryCyr        // kirill toza shakl
+        ];
+    
         const filtered = database.filter(item => {
-            const k = item.k.toLowerCase();
-            const kClean = k.replace(/\./g, ''); 
-
-            // Ham nuqtali, ham nuqtasiz, ham lotin/kirill variantda tekshiradi
-            return k.includes(queryCyrillic) || kClean.includes(queryClean);
+            // Asl kalitni tozalaymiz (nuqtasiz, kichik harf)
+            const kClean = item.k.toLowerCase().replace(/\./g, '');
+    
+            // Har qanday variant mos kelsa – yetarli
+            return variants.some(v => kClean.includes(v));
         });
-
+    
         render(filtered);
     }
 
