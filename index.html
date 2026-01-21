@@ -3,203 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Imtihon Shpargalka</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Rus Tili - Smart Shpargalka</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #f8fafc; /* Slate 50 */
-            --primary: #4f46e5; /* Indigo 600 */
-            --primary-soft: #e0e7ff; /* Indigo 100 */
-            --text-dark: #1e293b; /* Slate 800 */
-            --text-gray: #64748b; /* Slate 500 */
-            --card-bg: #ffffff;
-            --success: #10b981; /* Emerald 500 */
-            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            --shadow-hover: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --bg: #f1f5f9;
+            --primary: #6366f1;
+            --accent: #f43f5e;
+            --card: #ffffff;
+            --text: #0f172a;
+            --text-light: #64748b;
         }
 
         * {
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
+            margin: 0; padding: 0;
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg-color);
-            margin: 0;
-            color: var(--text-dark);
-            padding-bottom: 40px;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            overflow-x: hidden;
         }
 
-        /* Header & Search Area */
-        .sticky-header {
+        /* Header dizayni */
+        header {
             position: sticky;
             top: 0;
-            z-index: 50;
-            background: rgba(248, 250, 252, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            padding: 20px 20px 10px 20px;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 15px;
+            border-bottom: 1px solid #e2e8f0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
         }
 
         h1 {
-            font-size: 22px;
+            font-size: 18px;
             font-weight: 800;
-            text-align: center;
-            margin: 0 0 15px 0;
-            background: linear-gradient(135deg, #4f46e5 0%, #ec4899 100%);
+            background: linear-gradient(to right, var(--primary), var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: -0.5px;
         }
 
-        .search-wrapper {
+        .stats {
+            font-size: 12px;
+            color: var(--text-light);
+            background: #f1f5f9;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+
+        /* Qidiruv qutisi */
+        .search-container {
             position: relative;
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-gray);
-            pointer-events: none;
         }
 
         input {
             width: 100%;
-            padding: 14px 14px 14px 48px;
-            font-size: 16px;
-            border: 2px solid transparent;
-            border-radius: 16px;
-            background: #ffffff;
-            color: var(--text-dark);
-            box-shadow: var(--shadow);
+            padding: 12px 15px 12px 45px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 16px; /* 16px bo'lsa iOS avtomatik zoom qilmaydi */
             outline: none;
-            transition: all 0.2s ease;
-        }
-
-        input::placeholder {
-            color: #94a3b8;
+            transition: 0.2s;
+            background: var(--card);
         }
 
         input:focus {
             border-color: var(--primary);
-            box-shadow: 0 0 0 4px var(--primary-soft);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
         }
 
-        /* List Area */
-        .result-list {
-            list-style: none;
-            padding: 20px;
-            margin: 0 auto;
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+        }
+
+        /* Ro'yxat */
+        .results {
+            padding: 15px;
             max-width: 600px;
+            margin: 0 auto;
         }
 
         .card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 12px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            box-shadow: var(--shadow);
-            transition: transform 0.2s, box-shadow 0.2s;
-            border: 1px solid rgba(255,255,255,0.5);
-            animation: slideUp 0.3s ease-out forwards;
-        }
-
-        .card:active {
-            transform: scale(0.98);
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .code-badge {
-            background-color: var(--primary-soft);
-            color: var(--primary);
-            font-weight: 700;
-            font-size: 14px;
-            padding: 6px 12px;
-            border-radius: 8px;
-            letter-spacing: 0.5px;
-            font-family: monospace;
-        }
-
-        .answer-text {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--text-dark);
-            line-height: 1.4;
-            padding-left: 4px;
-        }
-
-        .answer-text span {
-            color: var(--success);
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--text-gray);
-            display: none;
-        }
-
-        .empty-icon {
-            font-size: 48px;
+            background: var(--card);
+            border-radius: 14px;
+            padding: 14px;
             margin-bottom: 10px;
-            display: block;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border: 1px solid rgba(0,0,0,0.02);
+            animation: fadeIn 0.3s ease;
         }
 
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(10px); }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
+        .card-code {
+            font-family: 'Courier New', monospace;
+            font-weight: 700;
+            color: var(--primary);
+            background: #eef2ff;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 14px;
+            word-break: break-all;
+            max-width: 60%;
         }
-        ::-webkit-scrollbar-track {
-            background: transparent;
+
+        .card-value {
+            font-weight: 600;
+            color: #10b981;
+            font-size: 16px;
+            text-align: right;
+            margin-left: 10px;
         }
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 3px;
+
+        .empty {
+            text-align: center;
+            padding: 50px 20px;
+            color: var(--text-light);
+        }
+
+        /* Mobil qurilmalar uchun kichik tuzatishlar */
+        @media (max-width: 380px) {
+            h1 { font-size: 16px; }
+            .card-code { font-size: 13px; }
+            .card-value { font-size: 14px; }
         }
     </style>
 </head>
 <body>
 
-<div class="sticky-header">
-    <div class="container">
-        <h1>🔍 Rus Tili Shpargalka</h1>
-        <div class="search-wrapper">
-            <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-            <input type="text" id="searchInput" placeholder="Savol kodini qidiring (masalan: V.k.v)..." autocomplete="off">
-        </div>
+<header>
+    <div class="header-top">
+        <h1>🔍 Rus Tili</h1>
+        <span class="stats" id="counter">Barchasi: 0</span>
     </div>
-</div>
+    <div class="search-container">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="Kodni kiriting..." autocomplete="off">
+    </div>
+</header>
 
-<div class="empty-state" id="emptyMsg">
-    <span class="empty-icon">🤔</span>
-    <p>Bunday kod topilmadi.<br>Boshqa narsa yozib ko'ring.</p>
-</div>
-
-<ul class="result-list" id="results">
-    <!-- Natijalar JS orqali chiqadi -->
-</ul>
+<div id="results" class="results"></div>
 
 <script>
     // MA'LUMOTLAR BAZASI (To'liq ro'yxat)
@@ -571,89 +537,53 @@
 {k: "Я.з.н.р.Д.б", v: "п"}
     ];
 
-    // Transliteratsiya xaritasi (Lotin -> Kirill)
-    const latToCyr = {
-        'a': 'а', 'b': 'б', 'v': 'в', 'g': 'г', 'd': 'д', 'e': 'е', 'yo': 'ё',
-        'j': 'ж', 'z': 'з', 'i': 'и', 'y': 'й', 'k': 'к', 'l': 'л', 'm': 'м',
-        'n': 'н', 'o': 'о', 'p': 'п', 'r': 'р', 's': 'с', 't': 'т', 'u': 'у',
-        'f': 'ф', 'x': 'х', 'ts': 'ц', 'ch': 'ч', 'sh': 'ш', 'shch': 'щ',
-        'e': 'э', 'yu': 'ю', 'ya': 'я', "'": 'ь', '"': 'ъ'
-    };
+    const input = document.getElementById('searchInput');
+    const container = document.getElementById('results');
+    const counter = document.getElementById('counter');
 
-    // Yordamchi funksiya: Matnni tozalash
-    function normalize(str) {
-        return str.toLowerCase().replace(/[^a-zа-я0-9]/g, '');
+    function toCyrillic(text) {
+        const map = {
+            'a':'а','b':'б','v':'в','g':'г','d':'д','e':'е','yo':'ё','j':'ж','z':'з','i':'и',
+            'y':'й','k':'к','l':'л','m':'м','n':'н','o':'о','p':'п','r':'р','s':'с','t':'т',
+            'u':'у','f':'ф','x':'х','ts':'ц','ch':'ч','sh':'ш','yu':'ю','ya':'я'
+        };
+        return text.split('').map(c => map[c.toLowerCase()] || c).join('');
     }
 
-    // Lotinchadan Kirillchaga o'girish
-    function toCyrillic(str) {
-        let res = str.toLowerCase();
-        res = res.replace(/shch/g, 'щ')
-                 .replace(/ch/g, 'ч')
-                 .replace(/sh/g, 'ш')
-                 .replace(/yo/g, 'ё')
-                 .replace(/yu/g, 'ю')
-                 .replace(/ya/g, 'я')
-                 .replace(/ts/g, 'ц')
-                 .replace(/ye/g, 'е');
-
-        let out = '';
-        for(let char of res) {
-            out += latToCyr[char] || char;
-        }
-        return out;
-    }
-
-    const searchInput = document.getElementById('searchInput');
-    const resultsList = document.getElementById('results');
-    const emptyMsg = document.getElementById('emptyMsg');
-
-    function renderList(items) {
-        resultsList.innerHTML = '';
-        if (items.length === 0) {
-            emptyMsg.style.display = 'block';
-            return;
-        }
-        emptyMsg.style.display = 'none';
-
-        items.forEach((item, index) => {
-            const li = document.createElement('li');
-            li.className = 'card';
-            li.style.animationDelay = `${index * 0.05}s`; // Kaskadli animatsiya
-            
-            li.innerHTML = `
-                <div class="card-header">
-                    <span class="code-badge">${item.k}</span>
-                </div>
-                <div class="answer-text">
-                    → <span>${item.v}</span>
-                </div>
-            `;
-            resultsList.appendChild(li);
-        });
-    }
-
-    // Dastlab hammasini ko'rsatish
-    renderList(database);
-
-    // Qidiruv logikasi
-    searchInput.addEventListener('input', (e) => {
-        const val = e.target.value.trim();
-        if (!val) {
-            renderList(database);
-            return;
-        }
-
-        const normalizedInput = normalize(val);
-        const cyrillicInput = normalize(toCyrillic(val));
-
+    function search() {
+        const query = input.value.toLowerCase();
+        const cyrQuery = toCyrillic(query);
+        
         const filtered = database.filter(item => {
-            const cleanKey = normalize(item.k);
-            return cleanKey.includes(normalizedInput) || cleanKey.includes(cyrillicInput);
+            const k = item.k.toLowerCase();
+            return k.includes(query) || k.includes(cyrQuery);
         });
 
-        renderList(filtered);
-    });
+        render(filtered);
+    }
+
+    function render(data) {
+        container.innerHTML = '';
+        counter.innerText = `Topildi: ${data.length}`;
+        
+        if(data.length === 0) {
+            container.innerHTML = '<div class="empty">Hech narsa topilmadi 😕</div>';
+            return;
+        }
+
+        data.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'card';
+            div.innerHTML = `
+                <div class="card-code">${item.k}</div>
+                <div class="card-value">${item.v}</div>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    input.addEventListener('input', search);
+    render(database); // Initial render
 </script>
 
 </body>
